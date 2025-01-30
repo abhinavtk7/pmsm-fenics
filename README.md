@@ -4,8 +4,8 @@ This repository contains a DOLFINx implementation of the [PMSM model]([http://ww
 
 ## 2D modelling
 
-- `generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. To learn about input parameters, run `python3 generate_pmsm_2D.py --help`.
-- `pmsm.py`: Script for solving the PMSM 2D model for. To learn about input parameters, run `python3 pmsm.py --help`.
+- `generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
+- `pmsm.py`: Script for solving the PMSM 2D model 
 
 ## 3D modelling
 
