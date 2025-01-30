@@ -1,29 +1,82 @@
-# TEAM-30 model
+# PMSM-FEniCS
 
-[![Time-domain verification](https://github.com/Wells-Group/TEAM30/actions/workflows/time-domain.yml/badge.svg)](https://github.com/Wells-Group/TEAM30/actions/workflows/time-domain.yml)
-
-This repository contains a DOLFINx implementation of the [TEAM 30 model](http://www.compumag.org/jsite/images/stories/TEAM/problem30a.pdf).
+This repository contains a DOLFINx implementation of the [PMSM model]([http://www.compumag.org/jsite/images/stories/TEAM/problem30a.pdf](https://doi.org/10.1016/j.finel.2022.103755)).
 
 ## 2D modelling
 
-- `generate_team30_meshes.py`: A script that generates the two TEAM 30 models (single and three phase) meshes and saves them to xdmf format. To learn about input parameters, run `python3 generate_team30_meshes.py --help`.
-- `team30_A_phi.py`: Script for solving the TEAM 30 model for either a single phase or three phase engine. To learn about input parameters, run `python3 team30_A_phi.py --help`.
-- `parameteric_study.py`: Script for doing a parametric sweep for either model and comparing with reference data. To learn about input parameters, run `python3 parameteric_study.py --help`
-- `utils.py`: File containing utillity functions used in the `team30_A_phi.py`, including post processing and quantities derived from Az
-- `test_team30.py` Testing script verifying the single and three phase implementation for first and second order elements by comparing to reference data. Executed with `python3 -m pytest -xvs
+- `generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. To learn about input parameters, run `python3 generate_pmsm_2D.py --help`.
+- `pmsm.py`: Script for solving the PMSM 2D model for. To learn about input parameters, run `python3 pmsm.py --help`.
 
 ## 3D modelling
 
-- `generate_team30_meshes_3D.py`: A script that generates the two 3D TEAM 30 models (single and three phase) meshes and saves them to xdmf format. To learn about input parameters, run `python3 generate_team30_meshes_3D.py --help`.
-
+- `scriptname.py`: description
 ## Installation
+This repository is based on the `TEAM30` project and is configured to run inside a Docker container with `dolfinx`. This guide provides step-by-step instructions to set up and run the project.
 
-The list of requirements can be found in [requirements.txt](requirements.txt).
 
-For an out of the box docker image, go to the [Github package](https://github.com/users/jorgensd/packages/container/package/dolfinx_team30).
+### **Prerequisites**
 
-The docker image can then be started with the following command:
+Ensure you have the following installed on your system:
 
+- [Docker](https://docs.docker.com/get-docker/) (Required for running the containerized environment)
+- [Git](https://git-scm.com/downloads) (Required for cloning the repository)
+
+### **Setup**
+
+#### **Step 1: Clone the Repository**
 ```bash
-docker run -ti -v $(pwd):/root/shared -w /root/shared/ --shm-size=512m --name=team30 ghcr.io/jorgensd/dolfinx_team30:v0.7.0
+git clone git@github.com:abhinavtk7/pmsm-fenics.git
+cd pmsm-fenics
 ```
+
+### **Step 2: Start the Docker Container**
+Run the following command from the project root to start the container:
+```bash
+docker run -ti -v $(pwd):/root/shared -w /root/shared/ --shm-size=512m --name=pmsm ghcr.io/fenics/dolfinx/dolfinx:v0.7.0
+```
+
+This command:
+- Mounts the current directory to `/root/shared/` inside the container.
+- Sets the working directory to `/root/shared/`.
+- Allocates shared memory (`--shm-size=512m`) to prevent memory issues.
+- Names the container `pmsm`.
+
+### **Step 3: Install Dependencies**
+Inside the container, install required Python packages:
+```bash
+python3 -m pip install tqdm pandas
+```
+
+### **Step 4: Verify Installation**
+Run the following command inside the container to check that everything is working correctly:
+```bash
+python3 -m pytest -xvs .
+```
+
+If all tests pass, the setup is successful.
+
+## **Usage**
+
+### **Starting the Docker Container Again**
+If you exit the container, restart it using:
+```bash
+docker start -ai pmsm
+```
+If the container was removed, recreate it using the command from **Step 2**.
+
+### **Stopping the Docker Container**
+Exit the container by running:
+```bash
+exit
+```
+Or stop it from another terminal:
+```bash
+docker stop pmsm
+```
+
+### **Removing the Docker Container**
+To remove the container completely:
+```bash
+docker rm pmsm
+```
+
