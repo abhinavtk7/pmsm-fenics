@@ -5,11 +5,19 @@ This repository contains a DOLFINx implementation of the [PMSM model]([http://ww
 ## 2D modelling
 
 - `generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
-- `pmsm.py`: Script for solving the PMSM 2D model 
+- `pmsm.py`: Script for solving the PMSM 2D model  
+- `pmsm_msh.py`: 
+- `pmsm_tor.py`: 
+- `utils.py`:
+
+
 
 ## 3D modelling
 
-- `scriptname.py`: description
+- `generate_pmsm_3D.py`: `: description
+- `utils3.py`: 
+
+
 ## Installation
 This repository is based on the `TEAM30` project and is configured to run inside a Docker container with `dolfinx`. This guide provides step-by-step instructions to set up and run the project.
 
@@ -79,4 +87,3 @@ To remove the container completely:
 ```bash
 docker rm pmsm
 ```
-
