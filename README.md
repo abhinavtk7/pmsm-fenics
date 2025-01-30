@@ -66,7 +66,7 @@ git clone git@github.com:abhinavtk7/pmsm-fenics.git
 cd pmsm-fenics
 ```
 
-### **Step 2: Start the Docker Container**
+#### **Step 2: Start the Docker Container**
 Run the following command from the project root to start the container:
 ```bash
 docker run -ti -v $(pwd):/root/shared -w /root/shared/ --shm-size=512m --name=pmsm ghcr.io/fenics/dolfinx/dolfinx:v0.7.0
@@ -78,16 +78,17 @@ This command:
 - Allocates shared memory (`--shm-size=512m`) to prevent memory issues.
 - Names the container `pmsm`.
 
-### **Step 3: Install Dependencies**
+#### **Step 3: Install Dependencies**
 Inside the container, install required Python packages:
 ```bash
 python3 -m pip install tqdm pandas
 ```
 
-### **Step 4: Verify Installation**
+#### **Step 4: Verify Installation**
 Run the following command inside the container to check that everything is working correctly:
 ```bash
 python3 -m pytest -xvs .
 ```
 
 If all tests pass, the setup is successful. 🥳🥳
+Happy Simulating 👍
