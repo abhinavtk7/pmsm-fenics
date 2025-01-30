@@ -90,5 +90,5 @@ Run the following command inside the container to check that everything is worki
 python3 -m pytest -xvs .
 ```
 
-If all tests pass, the setup is successful. 🥳🥳
+If all tests pass, the setup is successful. 🥳🥳 </br>
 Happy Simulating 👍
