@@ -21,8 +21,25 @@ This repository contains a DOLFINx implementation of the [PMSM model]([http://ww
 - `3D results`: Folder containing 3D Model results
 
 ## 2D Model Results
-![Magnetic vector potential](2D results/PMSM2D_Az.png)
-![Magnetic flux density](2D results/PMSM2D_B.png)
+<table>
+  <tr>
+    <td align="center">
+      <a href="./2D%20results/PMSM2D_Az.png">
+        <img src="./2D%20results/PMSM2D_Az.png" alt="Magnetic Vector Potential" width="300">
+      </a>
+      <p><b>Magnetic Vector Potential</b></p>
+      <p><a href="https://drive.google.com/file/d/1GrcKroc-dno4-W_8fjqnpYRnWG8lCafS/view?usp=sharing">Watch 'em rotate! :D</a></p>
+    </td>
+    <td align="center">
+      <a href="./2D%20results/PMSM2D_B.png">
+        <img src="./2D%20results/PMSM2D_B.png" alt="Magnetic Flux Density" width="300">
+      </a>
+      <p><b>Magnetic Flux Density</b></p>
+      <p><a href="https://drive.google.com/file/d/1d07aff6dNZa5njJSuvVtAdGsNQwggtUH/view?usp=sharing">Watch 'em rotate! :D</a></p>
+    </td>
+  </tr>
+</table>
+
 
 ## Installation
 This repository is based on the `TEAM30` project and is configured to run inside a Docker container with `dolfinx`. This guide provides step-by-step instructions to set up and run the project.
