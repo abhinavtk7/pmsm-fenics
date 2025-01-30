@@ -1,6 +1,6 @@
 # PMSM-FEniCS
 
-This repository contains a DOLFINx implementation of the [PMSM model]([http://www.compumag.org/jsite/images/stories/TEAM/problem30a.pdf](https://doi.org/10.1016/j.finel.2022.103755)).
+This repository contains a FEniCS implementation of the [PMSM model](https://doi.org/10.1016/j.finel.2022.103755).
 
 ## 2D modelling
 
