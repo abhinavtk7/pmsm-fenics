@@ -1,0 +1,82 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Debug TEAM 30 Mesh Gen",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/root/shared/generate_team30_meshes.py", // Path to your Python script
+            "console": "integratedTerminal", // Use the integrated terminal to see the output
+            "args": [
+                "--res",
+                "0.001", 
+                "--L",
+                "1",
+                "--single" // Or "--three"
+            ],
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Debug PMSM 2D Mesh Gen",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/root/shared/generate_pmsm_3D_copy.py", // Path to your Python script
+            "console": "integratedTerminal", // Use the integrated terminal to see the output
+            // "args": [
+            //     "--res",
+            //     "0.001", 
+            //     "--L",
+            //     "1",
+            //     "--three" // Or "--three"
+            // ],
+            "justMyCode": true
+        },
+        {
+            "name": "Python: PMSM solver Script",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/root/shared/pmsm_3D.py",
+            "console": "integratedTerminal",
+            "args": [
+                // "--plot",
+                "--progress",
+                // "--output", "output.txt"
+            ],
+            "justMyCode": true
+        },
+        {
+            "name": "Python: PMSM 3",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/root/shared/pmsm3.py",
+            "console": "integratedTerminal"
+          },
+          {
+            "name": "Python: Debug TEAM 30 A_phi Script",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/root/shared/team30_A_phi.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--single",
+                // "--three",
+                // "--apply-torque",
+                // "--num_phases", "2",
+                // "--omega", "1.0",
+                // "--degree", "2",
+                "--steps", "100",
+                // "--plot",
+                "--progress",
+                // "--output", "output.txt"
+            ],
+            "justMyCode": true
+        },
+        {
+            "name": "Python: bp_to_vtu ",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/root/shared/convert_bp_to_vtu.py",
+            "console": "integratedTerminal"
+          }
+    ]
+}

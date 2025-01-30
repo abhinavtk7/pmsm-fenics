@@ -1,0 +1,30 @@
+name: Test TEAM 30 model for time-domain
+
+on:
+  # Trigger tests on push
+  push:
+    branches:
+      - "**"
+  schedule:
+    # '*' is a special character in YAML, so string must be quoted
+    - cron: "0 1 * * *"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    container: ghcr.io/fenics/dolfinx/dolfinx:v0.7.0
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Flake8 code
+        run: python3 -m flake8 .
+
+      - name: Mypy check
+        run: python3 -m mypy .
+
+      - name: Install dependencies
+        run: python3 -m pip install -r requirements.txt --user
+
+      - name: Run test
+        run: |
+          mpirun -n 2 python3 -m pytest -vs test_team30.py
