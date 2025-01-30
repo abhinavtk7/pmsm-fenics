@@ -15,7 +15,7 @@ This repository contains a DOLFINx implementation of the [PMSM model]([http://ww
 ## 3D modelling
 
 - `generate_pmsm_3D.py`: `: description
-- `utils3.py`: 
+- `utils3D.py`: 
 
 
 ## Installation
