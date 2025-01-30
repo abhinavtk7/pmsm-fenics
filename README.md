@@ -90,10 +90,4 @@ Run the following command inside the container to check that everything is worki
 python3 -m pytest -xvs .
 ```
 
-If all tests pass, the setup is successful.
-
-### **Removing the Docker Container**
-To remove the container completely:
-```bash
-docker rm pmsm
-```
+If all tests pass, the setup is successful. 🥳🥳
