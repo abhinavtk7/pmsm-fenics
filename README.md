@@ -24,8 +24,8 @@ This repository contains a DOLFINx implementation of the [PMSM model]([http://ww
 <table>
   <tr>
     <td align="center">
-      <a href="./2D%20results/PMSM2D_Az.png">
-        <img src="./2D%20results/PMSM2D_Az.png" alt="Magnetic Vector Potential" width="300">
+      <a href="./meshes/mesh%20screenshots/2D%20mesh%20-%20res%200.001.png">
+        <img src="./meshes/mesh%20screenshots/2D%20mesh%20-%20res%200.001.png" alt="PMSM 2D Mesh" width="300">
       </a>
       <p><b>Magnetic Vector Potential</b></p>
       <p><a href="https://drive.google.com/file/d/1GrcKroc-dno4-W_8fjqnpYRnWG8lCafS/view?usp=sharing">Watch 'em rotate!</a></p>
