@@ -21,7 +21,7 @@ from dolfinx.io import VTXWriter
 from mpi4py import MPI
 from petsc4py import PETSc
 from utils import update_current_density
-from utils3 import SupplyCurrentDensity, PMMagnetization, MagneticField3D
+from utils3D import SupplyCurrentDensity, PMMagnetization, MagneticField3D
 from utils2 import DerivedQuantities2D
 
 

@@ -1,6 +1,6 @@
 from meshinfo import PmsmMeshValues
 # from excitations import SupplyCurrentDensity, PMMagnetization
-from utils3 import SupplyCurrentDensity, PMMagnetization
+from utils3D import SupplyCurrentDensity, PMMagnetization
 from pathlib import Path
 import os, math, ufl
 from mpi4py import MPI
