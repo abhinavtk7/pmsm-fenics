@@ -5,18 +5,24 @@ This repository contains a DOLFINx implementation of the [PMSM model]([http://ww
 ## 2D modelling
 
 - `generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
-- `pmsm.py`: Script for solving the PMSM 2D model  
+- `pmsm.py`: Script for solving the PMSM 2D model.  
+- `utils.py`: File containing utillity functions used in pmsm.py
 - `pmsm_msh.py`: 
 - `pmsm_tor.py`: 
-- `utils.py`:
-
-
+- `2D results`: Folder containing 2D Model results
+- `meshes`: Folder containing different meshes used for simulation
+- `mesh images`: Folder containing images of meshes used for simulation
 
 ## 3D modelling
 
-- `generate_pmsm_3D.py`: `: description
-- `utils3D.py`: 
+- `generate_pmsm_3D.py`: A script that generates the PMSM 3D meshes and saves them to xdmf format. 
+- `pmsm_3D.py`: Script for solving the PMSM 2D model.
+- `utils3D.py`: File containing utillity functions used in pmsm_3D.py
+- `3D results`: Folder containing 3D Model results
 
+## 2D Model Results
+![Magnetic vector potential](2D results/PMSM2D_Az.png)
+![Magnetic flux density](2D results/PMSM2D_B.png)
 
 ## Installation
 This repository is based on the `TEAM30` project and is configured to run inside a Docker container with `dolfinx`. This guide provides step-by-step instructions to set up and run the project.
