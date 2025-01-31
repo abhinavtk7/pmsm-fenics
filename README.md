@@ -46,6 +46,28 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
   </tr>
 </table>
 
+## 3D Model Results
+### 3D Mesh
+<table>
+  <tr>
+    <td align="center">
+      <a href="./meshes/mesh%20screenshots/3D_mesh_1.png">
+        <img src="./meshes/mesh%20screenshots/3D_mesh_1.png" alt="PMSM 3D Mesh" width="300">
+      </a>
+    </td>
+    <td align="center">
+      <a href="./meshes/mesh%20screenshots/3D_mesh_2.png">
+        <img src="./meshes/mesh%20screenshots/3D_mesh_2.png" alt="PMSM 3D Mesh" width="300">
+      </a>
+    </td>
+    <td align="center">
+      <a href="./meshes/mesh%20screenshots/3D_mesh_3.png">
+        <img src="./meshes/mesh%20screenshots/3D_mesh_3.png" alt="PMSM 3D Mesh" width="300">
+      </a>
+    </td>
+  </tr>
+</table>
+
 
 ## Installation
 This repository is based on the `TEAM30` project and is configured to run inside a Docker container with `dolfinx`. This guide provides step-by-step instructions to set up and run the project.
