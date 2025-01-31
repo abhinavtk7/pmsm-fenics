@@ -57,6 +57,7 @@ Ensure you have the following installed on your system:
 
 - [Docker](https://docs.docker.com/get-docker/) (Required for running the containerized environment)
 - [Git](https://git-scm.com/downloads) (Required for cloning the repository)
+- [VS Code](https://code.visualstudio.com/download) (Recommended for editing and debugging the project)
 
 ### **Setup**
 
