@@ -54,16 +54,19 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
       <a href="./meshes/mesh%20screenshots/3D_mesh_1.png">
         <img src="./meshes/mesh%20screenshots/3D_mesh_1.png" alt="PMSM 3D Mesh" width="300">
       </a>
+      <p><b>Isometric View</b></p>
     </td>
     <td align="center">
       <a href="./meshes/mesh%20screenshots/3D_mesh_2.png">
         <img src="./meshes/mesh%20screenshots/3D_mesh_2.png" alt="PMSM 3D Mesh" width="300">
       </a>
+      <p><b>Side View</b></p>
     </td>
     <td align="center">
       <a href="./meshes/mesh%20screenshots/3D_mesh_3.png">
         <img src="./meshes/mesh%20screenshots/3D_mesh_3.png" alt="PMSM 3D Mesh" width="300">
       </a>
+      <p><b>Top View</b></p>
     </td>
   </tr>
 </table>
