@@ -21,6 +21,8 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 - `3D results`: Folder containing 3D Model results
 
 ## 2D Model Results
+- [Gmsh](https://gmsh.info/) - Used for viewing and verifying the mesh.
+- [ParaView](https://www.paraview.org/) - Used for analyzing and visualizing the results.
 <table>
   <tr>
     <td align="center">
