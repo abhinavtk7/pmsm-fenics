@@ -30,10 +30,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     ==========
     outdir
         Directory to put results in
-
-    plot
-        Plot torque and voltage over time
-
+        
     progress
         Show progress bar for solving in time
 
@@ -42,7 +39,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     """
 
     # Parameters
-    fname = Path("meshes") / "pmesh1_res_0005"           # pmesh4_res_0005    # pmsm mesh {pmesh3, pmesh1, pmesh4}
+    fname = Path("meshes") / "pmesh1_res_001"           # pmesh4_res_0005    # pmsm mesh {pmesh3, pmesh1, pmesh4}
     omega_u: np.float64 = 62.83                     # Angular speed of rotor [rad/s]    # 600 RPM; 1 RPM = 2pi/60 rad/s
     degree: np.int32 = 1                            # Degree of magnetic vector potential functions space (default: 1)
     apply_torque: bool = False                      # Apply external torque to engine (ignore omega) (default: False)

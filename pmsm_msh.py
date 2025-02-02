@@ -22,7 +22,7 @@ from petsc4py import PETSc
 
 from utils import MagneticField2D, update_current_density, update_magnetization
 
-def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_output: bool = False):
+def solve_pmsm(res: int, outdir: Path = Path("results"), progress: bool = False, save_output: bool = False ):
     """
     Solve the TEAM 30 problem for a single or three phase engine.
 
@@ -37,12 +37,15 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     progress
         Show progress bar for solving in time
 
-    save_output
-        Save output to bp-files
+    res
+        Resolution of the mesh
+        0: 0.0005 mm, 1: 0.001 mm, 2: 0.005 mm, 3: 0.01 mm
+        default: 1
     """
 
     # Parameters
-    fname = Path("meshes") / "pmesh4_res_0005"               # pmsm mesh {pmesh3, pmesh1, pmesh4}
+    msh_files = [ 'pmesh1_res_0005', 'pmesh1_res_001', 'pmesh1_res_005', 'pmesh1_res_01' ]
+    fname = Path("meshes") / f"{msh_files[res]}"               # pmsm mesh {pmesh3, pmesh1, pmesh4}
     omega_u: np.float64 = 62.83                     # Angular speed of rotor [rad/s]    # 600 RPM; 1 RPM = 2pi/60 rad/s
     degree: np.int32 = 1                            # Degree of magnetic vector potential functions space (default: 1)
     apply_torque: bool = False                      # Apply external torque to engine (ignore omega) (default: False)
@@ -348,11 +351,11 @@ if __name__ == "__main__":
                         help="Show progress bar", default=False)
     parser.add_argument('--output', dest='output', action='store_true',
                         help="Save output to VTXFiles files", default=False)
-
+    parser.add_argument("--res", dest='res', type=int, default=1, help="Resolution of the mesh: (0: 0.0005 mm, 1: 0.001 mm, 2: 0.005 mm, 3: 0.01 mm)")
     args = parser.parse_args()
     current_datetime = datetime.now()
     formatted_datetime = current_datetime.strftime("%b_%d_%H_%M_%S")
     outdir = Path(f"PMSM_{formatted_datetime}")
     outdir.mkdir(exist_ok=True)
     print(f"Saving to PMSM_{formatted_datetime}")
-    solve_pmsm(outdir=outdir, progress=args.progress, save_output=args.output)
+    solve_pmsm(res = args.res, outdir=outdir, progress=args.progress, save_output=args.output)

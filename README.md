@@ -7,8 +7,8 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 - `generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
 - `pmsm.py`: Script for solving the PMSM 2D model.  
 - `utils.py`: File containing utillity functions used in pmsm.py
-- `pmsm_msh.py`: 
-- `pmsm_tor.py`: 
+- `pmsm_msh.py`: Script for running different mesh resolutions. 
+- `pmsm_tor.py`: Script for calculating torques. 
 - `2D results`: Folder containing 2D Model results
 - `meshes`: Folder containing different meshes used for simulation
 - `mesh images`: Folder containing images of meshes used for simulation
