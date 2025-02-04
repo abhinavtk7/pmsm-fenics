@@ -106,6 +106,20 @@ This command:
 - Allocates shared memory (`--shm-size=512m`) to prevent memory issues.
 - Names the container `pmsm`.
 
+#### **Step 4: Open VS Code and Attach to the Running Container**
+- Launch VS Code.
+- If you haven't installed "Remote - Containers" Extension, install it.
+  - Go to Extensions (Ctrl + Shift + X)
+  - Search for "Remote - Containers" and click Install. 
+- Press Ctrl + Shift + P to open the command palette.
+- Type and select "Attach to Running Container".
+- Choose the container named pmsm.
+- Once attached, open the project files inside the container:
+```bash
+cd /root/shared
+code .
+```
+
 #### **Step 3: Install Dependencies**
 Inside the container, install required Python packages:
 ```bash
