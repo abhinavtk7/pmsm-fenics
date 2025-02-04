@@ -99,6 +99,11 @@ Run the following command from the project root to start the container:
 ```bash
 docker run -ti -v $(pwd):/root/shared -w /root/shared/ --shm-size=512m --name=pmsm ghcr.io/fenics/dolfinx/dolfinx:v0.7.0
 ```
+This command:
+- Mounts the `current directory` to `/root/shared/` inside the container.
+- Sets the working directory to `/root/shared/`
+- Allocates shared memory (`--shm-size=512m`) to prevent memory issues.
+- Names the container `pmsm`
 
 #### **Step 3: Install Dependencies**
 Inside the container, install required Python packages:
