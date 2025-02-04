@@ -47,23 +47,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
     </td>
   </tr>
 </table>
-<table>
-  <tr>
-    <td align="center">
-      <a href="./meshes/mesh%20screenshots/2D%20mesh%20-%20res%200.001.png">
-        <img src="./meshes/mesh%20screenshots/2D%20mesh%20-%20res%200.001.png" alt="PMSM 2D Mesh" width="300">
-      </a>
-      <p><b>PMSM 2D Mesh</b></p>
-    </td>
-    <td align="center">
-      <a href="./2D%20results/B_gif_low.gif">
-        <img src="./2D%20results/B_gif_low.gif" alt="Magnetic Vector Potential" width="300">
-      </a>
-      <p><b>Magnetic Vector Potential</b></p>
-      <p><a href="https://youtu.be/TNKEGyomcUA">Watch it rotate</a></p>
-    </td>
-  </tr>
-</table>
+
 ## 3D Model Results
 ### 3D Mesh
 <table>
