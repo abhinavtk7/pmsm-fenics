@@ -107,12 +107,8 @@ docker run -ti -v $(pwd):/root/shared -w /root/shared/ --shm-size=512m --name=pm
   - Search for "Remote - Containers" and click Install. 
 - Press Ctrl + Shift + P to open the command palette.
 - Type and select "Attach to Running Container".
-- Choose the container named pmsm.
-- Once attached, open the project files inside the container:
-```bash
-cd /root/shared
-code .
-```
+- Choose the container named `pmsm`
+- Once attached, you will be inside the `pmsm` container.
 
 #### **Step 4: Install Dependencies**
 Inside the container, install required Python packages:
