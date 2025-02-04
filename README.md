@@ -100,13 +100,7 @@ Run the following command from the project root to start the container:
 docker run -ti -v $(pwd):/root/shared -w /root/shared/ --shm-size=512m --name=pmsm ghcr.io/fenics/dolfinx/dolfinx:v0.7.0
 ```
 
-This command:
-- Mounts the current directory to `/root/shared/` inside the container.
-- Sets the working directory to `/root/shared/`.
-- Allocates shared memory (`--shm-size=512m`) to prevent memory issues.
-- Names the container `pmsm`.
-
-#### **Step 4: Open VS Code and Attach to the Running Container**
+#### **Step 3: Open VS Code and Attach to the Running Container**
 - Launch VS Code.
 - If you haven't installed "Remote - Containers" Extension, install it.
   - Go to Extensions (Ctrl + Shift + X)
@@ -120,13 +114,13 @@ cd /root/shared
 code .
 ```
 
-#### **Step 3: Install Dependencies**
+#### **Step 4: Install Dependencies**
 Inside the container, install required Python packages:
 ```bash
 python3 -m pip install tqdm pandas
 ```
 
-#### **Step 4: Verify Installation**
+#### **Step 5: Verify Installation**
 Run the python code `pmsm_msh.py` with resolution of 0.01 mm inside the container to have a quick check that everything is working correctly:
 ```bash
 python3 pmsm_msh.py --res 0 --progress
