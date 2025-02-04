@@ -19,7 +19,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 - `pmsm_3D.py`: Script for solving the PMSM 2D model.
 - `utils3D.py`: File containing utillity functions used in pmsm_3D.py
 - `3D results`: Folder containing 3D Model results
-
+---
 ## 2D Model Results
 - [Gmsh](https://gmsh.info/) - Used for viewing and verifying the mesh.
 - [ParaView](https://www.paraview.org/) - Used for analyzing and visualizing the results.
@@ -73,7 +73,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
   </tr>
 </table>
 
-
+***
 ## Installation
 This repository is based on the `TEAM30` project and is configured to run inside a Docker container with `dolfinx`. This guide provides step-by-step instructions to set up and run the project.
 
