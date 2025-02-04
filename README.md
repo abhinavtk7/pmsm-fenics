@@ -120,6 +120,11 @@ docker start -ai pmsm
 ```
 If the container was removed, recreate it using the command from Step 2.
 #### **Stopping the Docker Container**
+Exit the container by running:
+```bash
+exit
+```
+Or stop it from another terminal:
 ```bash
 docker stop pmsm
 ```
@@ -128,7 +133,7 @@ To remove the container completely:
 ```bash
 docker rm pmsm
 ```
-#### **Using VS Code for editing and debugging**
+### **Using VS Code for editing and debugging**
 If you want to edit or debug the code, you can do it using VS Code.
 ##### **Open VS Code and Attach to the Running Container**
 - Launch VS Code.
