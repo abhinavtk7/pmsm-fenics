@@ -113,10 +113,10 @@ python3 -m pip install tqdm pandas
 ```
 
 #### **Step 4: Verify Installation**
-Run the following command inside the container to check that everything is working correctly:
+Run the python code `pmsm_msh.py` with resolution of 0.01 mm inside the container to have a quick check that everything is working correctly:
 ```bash
-python3 -m pytest -xvs .
+python3 pmsm_msh.py --res 0 --progress
 ```
 
-If all tests pass, the setup is successful. 🥳🥳 </br>
+If the code runs, the setup is successful. 🥳🥳 </br>
 Happy Simulating 👍
