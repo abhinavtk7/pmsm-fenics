@@ -111,6 +111,8 @@ Run the python code `pmsm_msh.py` with resolution of 0.01 mm inside the containe
 ```bash
 python3 pmsm_msh.py --res 3 --progress
 ```
+If the code runs, the setup is successful. 🥳🥳
+
 ---
 ### **Usage**
 #### **Starting the Docker Container Again**
@@ -144,3 +146,5 @@ If you want to edit or debug the code, you can do it using VS Code.
 - Type and select "Attach to Running Container".
 - Choose the container named `pmsm` (Make sure you've started the container).
 - Once attached, you will be inside the `pmsm` container.
+
+Happy Simulating 👍
