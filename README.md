@@ -100,26 +100,42 @@ Run the following command from the project root to start the container:
 docker run -ti -v $(pwd):/root/shared -w /root/shared/ --shm-size=512m --name=pmsm ghcr.io/fenics/dolfinx/dolfinx:v0.7.0
 ```
 
-#### **Step 3: Open VS Code and Attach to the Running Container**
+#### **Step 3: Install Dependencies**
+Inside the container, install required Python packages:
+```bash
+python3 -m pip install tqdm pandas
+```
+
+#### **Step 4: Verify Installation**
+Run the python code `pmsm_msh.py` with resolution of 0.01 mm inside the container to have a quick check that everything is working correctly:
+```bash
+python3 pmsm_msh.py --res 3 --progress
+```
+---
+### **Usage**
+#### **Starting the Docker Container Again**
+If you exit the container, restart it using:
+```bash
+docker start -ai pmsm
+```
+If the container was removed, recreate it using the command from Step 2.
+#### **Stopping the Docker Container**
+```bash
+docker stop pmsm
+```
+#### **Removing the Docker Container**
+To remove the container completely:
+```bash
+docker rm pmsm
+```
+#### **Using VS Code for editing and debugging**
+If you want to edit or debug the code, you can do it using VS Code.
+##### **Open VS Code and Attach to the Running Container**
 - Launch VS Code.
 - If you haven't installed "Remote - Containers" Extension, install it.
   - Go to Extensions (Ctrl + Shift + X)
   - Search for "Remote - Containers" and click Install. 
 - Press Ctrl + Shift + P to open the command palette.
 - Type and select "Attach to Running Container".
-- Choose the container named `pmsm`
+- Choose the container named `pmsm` (Make sure you've started the container).
 - Once attached, you will be inside the `pmsm` container.
-
-#### **Step 4: Install Dependencies**
-Inside the container, install required Python packages:
-```bash
-python3 -m pip install tqdm pandas
-```
-
-#### **Step 5: Verify Installation**
-Run the python code `pmsm_msh.py` with resolution of 0.01 mm inside the container to have a quick check that everything is working correctly:
-```bash
-python3 pmsm_msh.py --res 0 --progress
-```
-
-
