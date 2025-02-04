@@ -122,5 +122,4 @@ Run the python code `pmsm_msh.py` with resolution of 0.01 mm inside the containe
 python3 pmsm_msh.py --res 0 --progress
 ```
 
-If the code runs, the setup is successful. 🥳🥳 </br>
-Happy Simulating 👍
+
