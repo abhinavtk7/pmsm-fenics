@@ -74,6 +74,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 </table>
 
 ### 3D Outputs
+2D cross-section sliced by X-Y plane
 <table>
   <tr>
     <td align="center">
