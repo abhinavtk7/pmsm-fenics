@@ -72,6 +72,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
     </td>
   </tr>
 </table>
+
 ### 3D Outputs
 <table>
   <tr>
@@ -80,14 +81,14 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
         <img src="./3D%20results/A_output.png" alt="Magnetic Vector Potential (A)" width="300">
       </a>
       <p><b>Magnetic Vector Potential</b></p>
-      <p><a href="https://youtu.be/TNKEGyomcUA">Watch it rotate</a></p>
+      <p><a href="https://youtu.be/9bRAet_EvlY">Watch it rotate</a></p>
     </td>
     <td align="center">
       <a href="./3D%20results/B_output.png">
         <img src="./3D%20results/B_output.png" alt="Magnetic Flux Density (B)" width="300">
       </a>
       <p><b>Magnetic Flux Density</b></p>
-      <p><a href="https://youtu.be/4NeuEZJAQAw">Watch it rotate</a></p>
+      <p><a href="https://youtu.be/g1-qGIoQJdI">Watch it rotate</a></p>
     </td>
   </tr>
 </table>
