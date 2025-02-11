@@ -169,7 +169,7 @@ class SupplyCurrentDensity:
 
 
 def update_magnetization(Mvec, coercivity, omega_u, t, ct, domains, pm_orientation):
-        block_size = 2 # Mvec.function_space.dofmap.index_map_bs = 2 for 2D
+        block_size = 3 # Mvec.function_space.dofmap.index_map_bs = 2 for 2D; 3 for 3D
         coercivity = 8.38e5  # [A/m]   
         sign = 1
 

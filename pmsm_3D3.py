@@ -21,7 +21,7 @@ from dolfinx.io import VTXWriter
 from mpi4py import MPI
 from petsc4py import PETSc
 from utils import update_current_density
-from utils3D import PMMagnetization, MagneticField3D, update_magnetization
+from utils3D import update_magnetization
 
 
 def AssembleSystem(a, L, bcs, name):
@@ -156,20 +156,6 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     pm_orientation = {}
     for i, pm_marker in enumerate(Omega_pm):
         pm_orientation[pm_marker] = pm_angles[i]
-
-
-
-
-    # # Magnetization part
-    # msource_mag_T = 1.09999682447133
-    # # Permanent Magnetization (A/m)
-    # msource_mag   = (msource_mag_T*1e7)/(4*math.pi)
-    # msexp = PMMagnetization()
-    # msexp.mag = msource_mag
-    # msource = fem.Function(V_V)
-    # msource.interpolate(msexp.eval)
-    # msource.vector.ghostUpdate(addv=PETSc.InsertMode.INSERT,
-    #                         mode=PETSc.ScatterMode.FORWARD)
     
     # Create integration measures
     dx = ufl.Measure("dx", domain=mesh, subdomain_data=ct)
@@ -306,20 +292,20 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     A_out = fem.Function(V_V)
 
     A_out = AzV.sub(0).collapse()
-    V_out = AzV.sub(1).collapse()
+    # V_out = AzV.sub(1).collapse()
 
     # Post-processingfunction for projecting the magnetic field potential
-    post_B = MagneticField3D(AzV)
+    # post_B = MagneticField3D(AzV)
 
     A_out.name = "A"
-    post_B.B.name = "B"
-    V_out.name = "V"
+    # post_B.B.name = "B"
+    # V_out.name = "V"
     
     # Create output file
     if save_output:
         Az_vtx = VTXWriter(mesh.comm, str(outdir / "A.bp"), [A_out])
-        B_vtx = VTXWriter(mesh.comm, str(outdir / "B.bp"), [post_B.B])
-        V_vtx = VTXWriter(mesh.comm, str(outdir / "V.bp"), [V_out])
+        # B_vtx = VTXWriter(mesh.comm, str(outdir / "B.bp"), [post_B.B])
+        # V_vtx = VTXWriter(mesh.comm, str(outdir / "V.bp"), [V_out])
 
     # Computations needed for adding addiitonal torque to engine
     x = ufl.SpatialCoordinate(mesh)
@@ -391,20 +377,20 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
 
         # Update rotational speed 
         print("Az = ", min(AzV.sub(0).collapse().x.array[:]), max(AzV.sub(0).collapse().x.array[:]))
-        print("B_val = ", min(post_B.B.x.array[:]), max(post_B.B.x.array[:]))
+        # print("B_val = ", min(post_B.B.x.array[:]), max(post_B.B.x.array[:]))
         # Write solution to file
         if save_output:
-            post_B.interpolate()
+            # post_B.interpolate()
             A_out.x.array[:] = AzV.sub(0).collapse().x.array[:]
-            V_out.x.array[:] = AzV.sub(1).collapse().x.array[:]
+            # V_out.x.array[:] = AzV.sub(1).collapse().x.array[:]
             Az_vtx.write(t)
-            B_vtx.write(t)
-            V_vtx.write(t)
+            # B_vtx.write(t)
+            # V_vtx.write(t)
     b.destroy()
     if save_output:
         Az_vtx.close()
-        B_vtx.close()
-        V_vtx.close()
+        # B_vtx.close()
+        # V_vtx.close()
 
     elements = mesh.topology.index_map(mesh.topology.dim).size_global
     num_dofs = VQ.dofmap.index_map.size_global * VQ.dofmap.index_map_bs
