@@ -17,10 +17,10 @@
             "justMyCode": true
         },
         {
-            "name": "Python: Debug PMSM 2D Mesh Gen",
+            "name": "Python: Debug PMSM 3D Mesh Gen",
             "type": "debugpy",
             "request": "launch",
-            "program": "/root/shared/generate_pmsm_3D_copy.py", // Path to your Python script
+            "program": "/root/shared/generate_pmsm_3D.py", // Path to your Python script
             "console": "integratedTerminal", // Use the integrated terminal to see the output
             // "args": [
             //     "--res",
@@ -35,7 +35,7 @@
             "name": "Python: PMSM solver Script",
             "type": "debugpy",
             "request": "launch",
-            "program": "/root/shared/pmsm_3D2.py",
+            "program": "/root/shared/pmsm_3D3.py",
             "console": "integratedTerminal",
             "args": [
                 // "--plot",

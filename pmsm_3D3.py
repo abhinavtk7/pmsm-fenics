@@ -21,7 +21,7 @@ from dolfinx.io import VTXWriter
 from mpi4py import MPI
 from petsc4py import PETSc
 from utils import update_current_density
-from utils3D import PMMagnetization, MagneticField3D
+from utils3D import PMMagnetization, MagneticField3D, update_magnetization
 
 
 def AssembleSystem(a, L, bcs, name):
@@ -62,7 +62,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     """
 
     # Parameters
-    fname = Path("meshes") / "pmesh3D"           # pmesh4_res_0005    # pmsm mesh {pmesh3, pmesh1, pmesh4}
+    fname = Path("meshes") / "pmesh3D"  # pmesh3D         # pmesh4_res_0005    # pmsm mesh {pmesh3, pmesh1, pmesh4}
     omega_u: np.float64 = 62.83                     # Angular speed of rotor [rad/s]    # 600 RPM; 1 RPM = 2pi/60 rad/s
     degree: np.int32 = 1                            # Degree of magnetic vector potential functions space (default: 1)
     apply_torque: bool = False                      # Apply external torque to engine (ignore omega) (default: False)
@@ -145,15 +145,31 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     Omega_pm = domains["PM"]
     
     # Magnetization part
-    msource_mag_T = 1.09999682447133
-    # Permanent Magnetization (A/m)
-    msource_mag   = (msource_mag_T*1e7)/(4*math.pi)
-    msexp = PMMagnetization()
-    msexp.mag = msource_mag
-    msource = fem.Function(V_V)
-    msource.interpolate(msexp.eval)
-    msource.vector.ghostUpdate(addv=PETSc.InsertMode.INSERT,
-                            mode=PETSc.ScatterMode.FORWARD)
+    coercivity = 8.38e5  # [A/m]   
+    DG0v = fem.FunctionSpace(mesh, ("DG", 0, (3,)))
+    Mvec = fem.Function(DG0v)
+
+    pm_spacing = (np.pi / 6) + (np.pi / 30)
+    pm_angles = np.asarray([i * pm_spacing for i in range(10)], dtype=np.float64)
+    
+    # link pm orientation angle to each marker
+    pm_orientation = {}
+    for i, pm_marker in enumerate(Omega_pm):
+        pm_orientation[pm_marker] = pm_angles[i]
+
+
+
+
+    # # Magnetization part
+    # msource_mag_T = 1.09999682447133
+    # # Permanent Magnetization (A/m)
+    # msource_mag   = (msource_mag_T*1e7)/(4*math.pi)
+    # msexp = PMMagnetization()
+    # msexp.mag = msource_mag
+    # msource = fem.Function(V_V)
+    # msource.interpolate(msexp.eval)
+    # msource.vector.ghostUpdate(addv=PETSc.InsertMode.INSERT,
+    #                         mode=PETSc.ScatterMode.FORWARD)
     
     # Create integration measures
     dx = ufl.Measure("dx", domain=mesh, subdomain_data=ct)
@@ -174,7 +190,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
             + dt * sigma * ufl.inner(ufl.grad(V), vz) * dx(Omega_c) \
             + dt * sigma * ufl.inner(ufl.cross(omega * radius, ufl.curl(Az)), vz) * dx(Omega_c) \
             - dt * J0z * vz[2] * dx(Omega_n) \
-            - dt * (mu_0/mu) * ufl.inner( msource , ufl.curl(vz)) * dx(Omega_pm)
+            - dt * (mu_0/mu) * ufl.inner( Mvec , ufl.curl(vz)) * dx(Omega_pm)
 
     f_v =   + dt * sigma * ufl.inner(ufl.grad(V), ufl.grad(q)) * dx(Omega_n + Omega_c) \
             + sigma * ufl.inner((Az - An), ufl.grad(q)) * dx(Omega_c) \
@@ -325,7 +341,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     # Generate initial electric current in copper windings
     t = 0.
     update_current_density(J0z, omega_J, t, ct, currents)
-    # update_magnetization(Mvec, coercivity, omega_u, t, ct, domains, pm_orientation)
+    update_magnetization(Mvec, coercivity, omega_u, t, ct, domains, pm_orientation)
     if MPI.COMM_WORLD.rank == 0 and progress:
         progressbar = tqdm.tqdm(desc="Solving time-dependent problem",
                                 total=int(T / float(dt.value)))
@@ -336,7 +352,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
             progressbar.update(1)
         t += float(dt.value)
         update_current_density(J0z, omega_J, t, ct, currents)
-        # update_magnetization(Mvec, coercivity, omega_u, t, ct, domains, pm_orientation)
+        update_magnetization(Mvec, coercivity, omega_u, t, ct, domains, pm_orientation)
 
         # Reassemble RHS
         with b.localForm() as loc_b:

@@ -3,7 +3,7 @@
 import argparse
 from pathlib import Path
 from typing import Dict, Union
-
+from datetime import datetime
 import dolfinx
 import gmsh
 import numpy as np
@@ -295,7 +295,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="GMSH scripts to generate PMSM engines for",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--res", default=0.005, type=np.float64, dest="res",
+    parser.add_argument("--res", default=0.01, type=np.float64, dest="res",
                         help="Mesh resolution")
     parser.add_argument("--L", default=1, type=np.float64, dest="L",
                         help="Size of surround box with air")
@@ -309,13 +309,14 @@ if __name__ == "__main__":
 
     folder = Path("meshes")
     folder.mkdir(exist_ok=True)
-
-    fname = folder / "pmesh3D"    
+    current_datetime = datetime.now()
+    formatted_datetime = current_datetime.strftime("%b_%d_%H_%M_%S")
+    fname = folder / f"pmesh3D_12"    #
     generate_PMSM_mesh(fname, False, res, L, depth)
 
     mesh, cell_markers, facet_markers = dolfinx.io.gmshio.read_from_msh(
         str(fname.with_suffix(".msh")), MPI.COMM_WORLD, 0, gdim=3)
-    
+
     cell_markers.name = "Cell_markers"
     facet_markers.name = "Facet_markers"
     

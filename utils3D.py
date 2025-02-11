@@ -180,12 +180,13 @@ def update_magnetization(Mvec, coercivity, omega_u, t, ct, domains, pm_orientati
                     angle = pm_orientation[marker] + omega_u * t
                     Mx = coercivity * np.cos(angle) * sign * inout
                     My = coercivity * np.sin(angle) * sign * inout
-
+                    Mz = 0.0
                     cells = ct.find(marker)
                     for cell in cells:
                         idx = block_size * cell
                         Mvec.x.array[idx + 0] = Mx
                         Mvec.x.array[idx + 1] = My
+                        Mvec.x.array[idx + 2] = Mz
 
         # Mvec.x.scatter_forward()
         Mvec.vector.ghostUpdate(addv=PETSc.InsertMode.INSERT,
@@ -205,13 +206,13 @@ class PMMagnetization:
         mag, sign = self.mag, self.sign
         pm_spacing = (np.pi / 6) + (np.pi / 30)
         pm_angles = np.asarray([i * pm_spacing for i in range(10)], dtype=np.float64)
-
+        # [13, 14, 15, 16, 21, 22]
         # apply load for aligned domain
         for i in range(coord.shape[1]):
             x, y, z = coord[0][i], coord[1][i], coord[2][i] 
             cell_number = find_cell_from_point(x, y, z)
             marker = ct.values[np.where(ct.indices == cell_number)[0][0]]
-            if marker not in [13, 14, 15, 16, 17, 18, 19, 20, 21, 22]:
+            if marker not in [ 17, 18, 19, 20]:
                 continue
             # print(cell_number, marker)
             if marker == 13: 
