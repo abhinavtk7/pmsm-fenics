@@ -47,7 +47,7 @@ def solve_pmsm(outdir: Path = Path("results"), plot: bool = False, progress: boo
     # Parameters
     fname = Path("meshes") / "pmesh1_res_001"               # pmsm mesh {pmesh3, pmesh1, test4}
     # rpm = 2350  # [0, 200, 400, 600, 800, 1000, 1200, 1400]
-    omega_u: np.float64 =  200   # rpm * (2 * math.pi / 60) # 62.83 # 250 #62.83                     # Angular speed of rotor [rad/s]    # 600 RPM; 1 RPM = 2pi/60 rad/s
+    omega_u: np.float64 = 62.83  # rpm * (2 * math.pi / 60) # 62.83 # 250 #62.83                     # Angular speed of rotor [rad/s]    # 600 RPM; 1 RPM = 2pi/60 rad/s
     degree: np.int32 = 1                            # Degree of magnetic vector potential functions space (default: 1)
     apply_torque: bool = False                      # Apply external torque to engine (ignore omega) (default: False)
     form_compiler_options: dict = {} 
