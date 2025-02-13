@@ -4,20 +4,20 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 
 ## 2D modelling
 
-- `generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
-- `pmsm.py`: Script for solving the PMSM 2D model.  
-- `utils.py`: File containing utillity functions used in pmsm.py
-- `pmsm_msh.py`: Script for running different mesh resolutions. 
-- `pmsm_tor.py`: Script for calculating torques. 
+- `src/generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
+- `src/pmsm.py`: Script for solving the PMSM 2D model.  
+- `src/utils.py`: File containing utillity functions used in pmsm.py
+- `scripts/pmsm_msh.py`: Script for running different mesh resolutions. 
+- `scripts/pmsm_tor.py`: Script for calculating torques. 
 - `2D results`: Folder containing 2D Model results
 - `meshes`: Folder containing different meshes used for simulation
 - `mesh images`: Folder containing images of meshes used for simulation
 
 ## 3D modelling
 
-- `generate_pmsm_3D.py`: A script that generates the PMSM 3D meshes and saves them to xdmf format. 
-- `pmsm_3D.py`: Script for solving the PMSM 2D model.
-- `utils3D.py`: File containing utillity functions used in pmsm_3D.py
+- `src/generate_pmsm_3D.py`: A script that generates the PMSM 3D meshes and saves them to xdmf format. 
+- `src/pmsm_3D.py`: Script for solving the PMSM 2D model.
+- `src/utils3D.py`: File containing utillity functions used in pmsm_3D.py
 - `3D results`: Folder containing 3D Model results
 ---
 ## 2D Model Results
