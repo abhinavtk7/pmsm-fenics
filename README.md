@@ -20,7 +20,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 - `src/utils3D.py`: File containing utillity functions used in pmsm_3D.py
 - `3D results`: Folder containing 3D Model results
 ---
-## 2D Model Results
+## 🎯 2D Model Results
 - [Gmsh](https://gmsh.info/) - Used for viewing and verifying the mesh.
 - [ParaView](https://www.paraview.org/) - Used for analyzing and visualizing the results.
 <table>
@@ -48,7 +48,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
   </tr>
 </table>
 
-## 3D Model Results
+## 🎯 3D Model Results
 ### 3D Mesh
 <table>
   <tr>
@@ -95,11 +95,11 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 </table>
 
 ***
-## Installation
+## **🚀 Installation**
 This repository is based on the `TEAM30` project and is configured to run inside a Docker container with `dolfinx`. This guide provides step-by-step instructions to set up and run the project.
 
 
-### **Prerequisites**
+### **📌 Prerequisites**
 
 Ensure you have the following installed on your system:
 
@@ -107,15 +107,15 @@ Ensure you have the following installed on your system:
 - [Git](https://git-scm.com/downloads) (Required for cloning the repository)
 - [VS Code](https://code.visualstudio.com/download) (Recommended for editing and debugging the project)
 
-### **Setup**
+### **🔧 Setup**
 
-#### **Step 1: Clone the Repository**
+#### **Step 1️⃣: Clone the Repository**
 ```bash
 git clone git@github.com:abhinavtk7/pmsm-fenics.git
 cd pmsm-fenics
 ```
 
-#### **Step 2: Start the Docker Container**
+#### **Step 2️⃣: Start the Docker Container**
 Run the following command from the project root to start the container:
 ```bash
 docker run -ti -v $(pwd):/root/shared -w /root/shared/ --shm-size=512m --name=pmsm ghcr.io/fenics/dolfinx/dolfinx:v0.7.0
@@ -126,21 +126,21 @@ This command:
 - Allocates shared memory (`--shm-size=512m`) to prevent memory issues.
 - Names the container `pmsm`
 
-#### **Step 3: Install Dependencies**
+#### **Step 3️⃣: Install Dependencies**
 Inside the container, install required Python packages:
 ```bash
 python3 -m pip install tqdm pandas
 ```
 
-#### **Step 4: Verify Installation**
+#### **Step 4️⃣: Verify Installation**
 Run the python code `pmsm_msh.py` with resolution of 0.01 mm inside the container to have a quick check that everything is working correctly:
 ```bash
-python3 pmsm_msh.py --res 3 --progress
+python3 scripts/pmsm_msh.py --res 3 --progress
 ```
 If the code runs, the setup is successful. 🥳🥳
 
 ---
-### **Usage**
+### **▶️ Usage**
 #### **Starting the Docker Container Again**
 If you exit the container, restart it using:
 ```bash
@@ -161,7 +161,7 @@ To remove the container completely:
 ```bash
 docker rm pmsm
 ```
-### **Using VS Code for editing and debugging**
+### **🧑‍💻 Using VS Code for editing and debugging**
 If you want to edit or debug the code, you can do it using VS Code.
 ##### **Open VS Code and Attach to the Running Container**
 - Launch VS Code.
@@ -172,5 +172,13 @@ If you want to edit or debug the code, you can do it using VS Code.
 - Type and select "Attach to Running Container".
 - Choose the container named `pmsm` (Make sure you've started the container).
 - Once attached, you will be inside the `pmsm` container.
+
+## ✅ Quick Troubleshooting  
+
+| 🛑 Issue | 💡 Solution |
+|---------|------------|
+| **Docker is not running** | Start **Docker Desktop** |
+| **Container does not exist** | Run `docker ps -a` to check |
+| **VS Code not detecting container** | Restart **VS Code** & **Docker** |
 
 Happy Simulating 👍
