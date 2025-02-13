@@ -11,7 +11,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 - `scripts/pmsm_tor.py`: Script for calculating torques. 
 - `2D results`: Folder containing 2D Model results
 - `meshes`: Folder containing different meshes used for simulation
-- `mesh images`: Folder containing images of meshes used for simulation
+- `meshes/mesh screenshots`: Folder containing images of meshes used for simulation
 
 ## 3D modelling
 
