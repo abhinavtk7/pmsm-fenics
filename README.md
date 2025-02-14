@@ -1,7 +1,7 @@
 # Modelling a Permanent Magnet Synchronous Motor (PMSM) using Finite Element Method in FEniCS
 
-This repository contains FEniCS implementation of a Permanent Magnet Synchronous Motor (PMSM) Model in 2D and 3D. [(Reference)](https://doi.org/10.1016/j.finel.2022.103755)
-
+This repository contains FEniCS implementation of a Permanent Magnet Synchronous Motor (PMSM) Model in 2D and 3D. [(Reference)](https://doi.org/10.1016/j.finel.2022.103755) <br>
+[See Objective](docs/objective.png)
 ## 2D modelling
 
 - `src/generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
