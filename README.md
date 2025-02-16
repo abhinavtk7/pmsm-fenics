@@ -3,7 +3,9 @@
 This repository contains FEniCS implementation of a Permanent Magnet Synchronous Motor (PMSM) Model in 2D and 3D. [(Reference)](https://doi.org/10.1016/j.finel.2022.103755) <br>
 <p align="center">
   <img src="docs/objective.png" alt="Objective" width="640" height="360">
-</p>
+</p> 
+
+This project is developed on top of [**TEAM30**](https://github.com/Wells-Group/TEAM30), extending its capabilities to model a PMSM. A big thanks to the original authors for their amazing work! 
 
 ## 2D modelling
 
