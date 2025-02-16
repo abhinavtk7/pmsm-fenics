@@ -79,22 +79,41 @@ This project is built upon [**TEAM30**](https://github.com/Wells-Group/TEAM30), 
 </table>
 
 ### 3D Outputs
-2D cross-section (sliced by X-Y plane)
 <table>
   <tr>
     <td align="center">
       <a href="./3D%20results/A_output.png">
         <img src="./3D%20results/A_output_mag.png" alt="Magnetic Vector Potential (A)" width="450">
       </a>
-      <p><b>Magnetic Vector Potential</b></p>
+      <p><b>Magnetic Vector Potential (A)</b></p>
+      <p> (XY plane cross-section) </p>
       <p><a href="https://youtu.be/D9hegGKyAyU">Watch it rotate</a></p>
     </td>
     <td align="center">
       <a href="./3D%20results/B_output.png">
         <img src="./3D%20results/B_output_mag.png" alt="Magnetic Flux Density (B)" width="450">
       </a>
-      <p><b>Magnetic Flux Density</b></p>
+      <p><b>Magnetic Flux Density (B)</b></p>
+      <p> (XY plane cross-section) </p>
       <p><a href="https://youtu.be/4mJqwAhYwN4">Watch it rotate</a></p>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="./3D%20results/A_output_YZ.png">
+        <img src="./3D%20results/A_output_YZ.png" alt="Magnetic Vector Potential (A)" width="450">
+      </a>
+      <p><b>Magnetic Vector Potential (A)</b></p>
+      <p> (YZ plane cross-section) </p>
+      <p><a href="https://youtu.be/dlkFgMFOXCg">Watch it rotate</a></p>
+    </td>
+    <td align="center">
+      <a href="./3D%20results/B_output_YZ.png">
+        <img src="./3D%20results/B_output_YZ.png" alt="Magnetic Flux Density (B)" width="450">
+      </a>
+      <p><b>Magnetic Flux Density (B)</b></p>
+       <p> (YZ plane cross-section) </p>
+      <p><a href="https://youtu.be/E7q7DKzymRg">Watch it rotate</a></p>
     </td>
   </tr>
 </table>
