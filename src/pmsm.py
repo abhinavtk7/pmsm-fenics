@@ -21,7 +21,7 @@ from mpi4py import MPI
 from petsc4py import PETSc
 
 from utils import MagneticField2D, update_current_density, update_magnetization
-from utils2 import DerivedQuantities2D
+# from utils2 import DerivedQuantities2D
 def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_output: bool = False):
     """
     Solve the TEAM 30 problem for a single or three phase engine.
@@ -200,6 +200,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
                      jit_options=jit_parameters)
     b = _petsc.create_vector(cpp_L)
 
+
     # Create solver
     solver = PETSc.KSP().create(mesh.comm)  # type: ignore
     solver.setOperators(A)
@@ -212,27 +213,28 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     # Set PETSc options
     opts = PETSc.Options()  # type: ignore
     opts.prefixPush(solver_prefix)
-    # petsc_options: dict = {"ksp_type": "preonly", "pc_type": "lu"}
-    # for k, v in petsc_options.items():
-    #     opts[k] = v
-    opts["ksp_type"] = "gmres"
-    # opts["ksp_converged_reason"] = None
-    # opts["ksp_monitor_true_residual"] = None
-    opts["ksp_type"] = "gmres"
-    opts["ksp_gmres_modifiedgramschmidt"] = None
-    opts["ksp_diagonal_scale"] = None
-    opts["ksp_gmres_restart"] = 500
-    opts["ksp_rtol"] = 1e-08
-    opts["ksp_max_it"] = 50000
-    opts["pc_type"] = "bjacobi"
-    # opts["pc_view"] = None
-    # opts["ksp_monitor"] = None
-    # opts["ksp_view"] = None
+    
+    petsc_options: dict = {"ksp_type": "preonly", "pc_type": "lu"}
+    for k, v in petsc_options.items():
+        opts[k] = v
+    opts.prefixPop()
     solver.setFromOptions()
-    # opts.prefixPop()
+    solver.setOptionsPrefix(prefix)
+    solver.setFromOptions()
+
+
+    # opts["ksp_type"] = "gmres"
+    # opts["ksp_gmres_modifiedgramschmidt"] = None
+    # opts["ksp_diagonal_scale"] = None
+    # opts["ksp_gmres_restart"] = 500
+    # opts["ksp_rtol"] = 1e-08
+    # opts["ksp_max_it"] = 50000
+    # opts["pc_type"] = "bjacobi"
+    # # opts["pc_view"] = None
+    # # opts["ksp_monitor"] = None
+    # # opts["ksp_view"] = None
     # solver.setFromOptions()
-    # solver.setOptionsPrefix(prefix)
-    # solver.setFromOptions()
+
 
     # Function for containg the solution
     AzV = fem.Function(VQ)
