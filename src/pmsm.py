@@ -24,7 +24,7 @@ from utils import MagneticField2D, update_current_density, update_magnetization
 # from utils2 import DerivedQuantities2D
 def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_output: bool = False):
     """
-    Solve the TEAM 30 problem for a single or three phase engine.
+    Solve a 3-phase PMSM motor. 
 
     Parameters
     ==========
@@ -40,9 +40,9 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
 
     # Parameters
     fname = Path("meshes") / "pmesh1_res_001"           # pmesh4_res_0005    # pmsm mesh {pmesh3, pmesh1, pmesh4}
-    omega_u: np.float64 = 62.83                     # Angular speed of rotor [rad/s]    # 600 RPM; 1 RPM = 2pi/60 rad/s
-    degree: np.int32 = 1                            # Degree of magnetic vector potential functions space (default: 1)
-    apply_torque: bool = False                      # Apply external torque to engine (ignore omega) (default: False)
+    omega_u: np.float64 = 62.83                         # Angular speed of rotor [rad/s]    # 600 RPM; 1 RPM = 2pi/60 rad/s
+    degree: np.int32 = 1                                # Degree of magnetic vector potential functions space (default: 1)
+    apply_torque: bool = False                          # Apply external torque to engine (ignore omega) (default: False)
     form_compiler_options: dict = {} 
     jit_parameters: dict = {}
 
