@@ -1,4 +1,21 @@
-# Modelling a Permanent Magnet Synchronous Motor (PMSM) using Finite Element Method in FEniCS
+# Modeling a Permanent Magnet Synchronous Motor (PMSM) using Finite Element Method in FEniCS
+
+
+<p align="center">
+  <a href="https://www.iitm.ac.in/">
+    <img src="docs/iitm_logo.png" alt="IITM Logo" width="50">
+  </a>
+  <a href="https://flaxandteal.co.uk/">
+    <img src="docs/flaxandteal_logo.jpeg" alt="Flax & Teal Logo" width="50">
+  </a>
+  <a href="https://fenicsproject.org/">
+    <img src="docs/fenics_logo.png" alt="FEniCS Logo" width="50">
+  </a>
+</p>
+
+[![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/Docker-Supported-blue?logo=docker)](https://www.docker.com/)
+
 
 This repository contains FEniCS implementation of a Permanent Magnet Synchronous Motor (PMSM) Model in 2D and 3D. [(Reference)](https://doi.org/10.1016/j.finel.2022.103755) <br>
 <p align="center">
