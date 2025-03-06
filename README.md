@@ -24,7 +24,7 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 
 This project is built upon [**TEAM30**](https://github.com/Wells-Group/TEAM30), extending its capabilities to model a PMSM. A big thanks to the original authors for their amazing work! 
 
-## 2D modelling
+## 2D modeling
 
 - `src/generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
 - `src/pmsm.py`: Script for solving the PMSM 2D model.  
@@ -35,7 +35,7 @@ This project is built upon [**TEAM30**](https://github.com/Wells-Group/TEAM30), 
 - `meshes`: Folder containing different meshes used for simulation
 - `meshes/mesh screenshots`: Folder containing images of meshes used for simulation
 
-## 3D modelling
+## 3D modeling
 
 - `src/generate_pmsm_3D.py`: A script that generates the PMSM 3D meshes and saves them to xdmf format. 
 - `src/pmsm_3D.py`: Script for solving the PMSM 2D model.
