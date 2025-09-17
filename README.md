@@ -38,7 +38,7 @@ This project is built upon [**TEAM30**](https://github.com/Wells-Group/TEAM30), 
 ## 3D modeling
 
 - `src/generate_pmsm_3D.py`: A script that generates the PMSM 3D meshes and saves them to xdmf format. 
-- `src/pmsm_3D.py`: Script for solving the PMSM 2D model.
+- `src/pmsm_3D.py`: Script for solving the PMSM 3D model.
 - `src/utils3D.py`: File containing utillity functions used in pmsm_3D.py
 - `3D results`: Folder containing 3D Model results
 ---
@@ -223,3 +223,4 @@ If you want to edit or debug the code, you can do it using VS Code.
 | **VS Code not detecting container** | Restart **VS Code** & **Docker** |
 
 Happy Simulating 👍
+
