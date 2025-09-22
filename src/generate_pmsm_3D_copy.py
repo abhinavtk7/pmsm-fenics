@@ -104,7 +104,7 @@ def generate_PMSM_mesh(filename: Path, single: bool, res: np.float64, L: np.floa
         cb = gmsh.model.occ.addPoint(0, 0, depth)
         cline = gmsh.model.occ.addLine(cf, cb)
 
-        # air_box = gmsh.model.occ.addRectangle(-L / 2, - L / 2, 0, 2 * L / 2, 2 * L / 2)
+        air_box = gmsh.model.occ.addRectangle(-L / 2, - L / 2, 0, 2 * L / 2, 2 * L / 2)
         # Define the different circular layers
         strator_steel = gmsh.model.occ.addCircle(0, 0, 0, mesh_parameters["r5"])
         air_2 = gmsh.model.occ.addCircle(0, 0, 0, mesh_parameters["r4"])        # stator bdry
@@ -120,6 +120,7 @@ def generate_PMSM_mesh(filename: Path, single: bool, res: np.float64, L: np.floa
         air_2_loop = gmsh.model.occ.addCurveLoop([air_2])
         strator_steel = gmsh.model.occ.addPlaneSurface([steel_loop, air_2_loop])
 
+        # create air box
         # Create air layer
         air_loop = gmsh.model.occ.addCurveLoop([air])
         air = gmsh.model.occ.addPlaneSurface([air_2_loop, air_loop])
@@ -169,6 +170,7 @@ def generate_PMSM_mesh(filename: Path, single: bool, res: np.float64, L: np.floa
         domains_rot_neg = gmsh.model.occ.extrude([(2, rotor_disk)], 0, 0, - 0.025) # extruding rotor
         domains_mag_pos = gmsh.model.occ.extrude(domains_mag, 0, 0, depth + 0.0025)
         domains_mag_neg = gmsh.model.occ.extrude(domains_mag, 0, 0, - 0.0025)
+        domains_air_box = gmsh.model.occ.extrude(domains_mag, 0, 0, - 0.0025)
         domains = domains + domains_cu_pos + domains_cu_neg + domains_rot_pos + domains_rot_neg + domains_mag_pos + domains_mag_neg
 
         domains_3D = []

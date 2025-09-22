@@ -162,9 +162,17 @@ def generate_PMSM_mesh(filename: Path, single: bool, res: np.float64, L: np.floa
         for domain in domains:
             if domain[0] == 3:
                 domains_3D.append(domain)
+        # air_box = gmsh.model.occ.addBox(
+        #     -L / 2, -L / 2, -5 * depth, L, L, 10 * depth
+        # )
         air_box = gmsh.model.occ.addBox(
-            -L / 2, -L / 2, -5 * depth, 2 * L / 2, 2 * L / 2, 10 * depth
+            -L / 2, -L / 2, depth/2, L, L, depth
         )
+        # Cutting box (removes one half)
+        # cutting_box = gmsh.model.occ.addBox(0, -L/2, -5 * depth, L/2, L, 10 * depth)
+
+        # # Perform Boolean cut to remove one half
+        # half_box = gmsh.model.occ.cut([(3, air_box)], [(3, cutting_box)])
         volumes, _ = gmsh.model.occ.fragment([(3, air_box)], domains_3D)
 
         gmsh.model.occ.synchronize()
@@ -185,7 +193,7 @@ def generate_PMSM_mesh(filename: Path, single: bool, res: np.float64, L: np.floa
                                                  depth * area_helper * frac_cu: "Cu",
                                                  depth * area_helper * frac_air: "Air",
                                                  depth * (rs[4]**2 - rs[3]**2) * np.pi: "Stator",
-                                                 float(L**2 * 10 * depth - depth * np.pi * rs[4]**2): "Air",
+                                                 float(L**2 * depth - depth * np.pi * rs[4]**2): "Air",
                                                  depth * area_helper1 * frac_pm: "PM",
                                                  depth * area_helper1 * frac_al: "Al",
                                                  depth * (rs[1]**2 - rs[6]**2) * np.pi: "Al"}
@@ -300,7 +308,7 @@ if __name__ == "__main__":
     parser.add_argument("--L", default=1, type=np.float64, dest="L",
                         help="Size of surround box with air")
     parser.add_argument("--depth", default=0.057, type=np.float64, dest="depth",
-                        help="Size of surround box with air")
+                        help="Height of surround box with air")
 
     args = parser.parse_args()
     L = args.L
@@ -311,7 +319,7 @@ if __name__ == "__main__":
     folder.mkdir(exist_ok=True)
     current_datetime = datetime.now()
     formatted_datetime = current_datetime.strftime("%b_%d_%H_%M_%S")
-    fname = folder / f"pmesh3D_12"    #
+    fname = folder / f"pmesh3D_test1"    #
     generate_PMSM_mesh(fname, False, res, L, depth)
 
     mesh, cell_markers, facet_markers = dolfinx.io.gmshio.read_from_msh(

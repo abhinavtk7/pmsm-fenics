@@ -82,7 +82,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     }
     # "Al": 1.000022*mu_0 "Al": 3.72e7 2700
     freq = model_parameters["freq"]             # 50
-    T = 0.1 #0.005 0.01 
+    T = 0.05 #0.005 0.01 
     dt_ = 0.001 #0.001 0.002 
     omega_J = 2 * np.pi * freq                  # 376.99111843077515
 
@@ -180,8 +180,8 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
 
     f_v =   + dt * sigma * ufl.inner(ufl.grad(V), ufl.grad(q)) * dx(Omega_n + Omega_c) \
             + sigma * ufl.inner((Az - An), ufl.grad(q)) * dx(Omega_c) \
-            + dt * sigma * ufl.inner(ufl.cross(omega * radius, ufl.curl(Az)), vz) * dx(Omega_c)
-
+            + dt * sigma * ufl.inner(ufl.cross(omega * radius, ufl.curl(Az)), ufl.grad(q)) * dx(Omega_c)
+            # ufl.grad(q), vz
     form_av = f_a + f_v
     a, L = ufl.system(form_av)
 
@@ -292,20 +292,20 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     A_out = fem.Function(V_V)
 
     A_out = AzV.sub(0).collapse()
-    # V_out = AzV.sub(1).collapse()
+    V_out = AzV.sub(1).collapse()
 
     # Post-processingfunction for projecting the magnetic field potential
     # post_B = MagneticField3D(AzV)
 
     A_out.name = "A"
     # post_B.B.name = "B"
-    # V_out.name = "V"
+    V_out.name = "V"
     
     # Create output file
     if save_output:
         Az_vtx = VTXWriter(mesh.comm, str(outdir / "A.bp"), [A_out])
         # B_vtx = VTXWriter(mesh.comm, str(outdir / "B.bp"), [post_B.B])
-        # V_vtx = VTXWriter(mesh.comm, str(outdir / "V.bp"), [V_out])
+        V_vtx = VTXWriter(mesh.comm, str(outdir / "V.bp"), [V_out])
 
     # Computations needed for adding addiitonal torque to engine
     x = ufl.SpatialCoordinate(mesh)
@@ -382,15 +382,15 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
         if save_output:
             # post_B.interpolate()
             A_out.x.array[:] = AzV.sub(0).collapse().x.array[:]
-            # V_out.x.array[:] = AzV.sub(1).collapse().x.array[:]
+            V_out.x.array[:] = AzV.sub(1).collapse().x.array[:]
             Az_vtx.write(t)
             # B_vtx.write(t)
-            # V_vtx.write(t)
+            V_vtx.write(t)
     b.destroy()
     if save_output:
         Az_vtx.close()
         # B_vtx.close()
-        # V_vtx.close()
+        V_vtx.close()
 
     elements = mesh.topology.index_map(mesh.topology.dim).size_global
     num_dofs = VQ.dofmap.index_map.size_global * VQ.dofmap.index_map_bs
