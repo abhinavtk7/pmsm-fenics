@@ -1,8 +1,30 @@
-# Modelling a Permanent Magnet Synchronous Motor (PMSM) using Finite Element Method in FEniCS
+# Modeling a Permanent Magnet Synchronous Motor (PMSM) using Finite Element Method in FEniCS
 
-This repository contains FEniCS implementation of a Permanent Magnet Synchronous Motor (PMSM) Model in 2D and 3D. [(Reference)](https://doi.org/10.1016/j.finel.2022.103755)
 
-## 2D modelling
+<p align="center">
+  <a href="https://www.iitm.ac.in/">
+    <img src="docs/iitm_logo.png" alt="IITM Logo" width="50">
+  </a>
+  <a href="https://flaxandteal.co.uk/">
+    <img src="docs/flaxandteal_logo.jpeg" alt="Flax & Teal Logo" width="50">
+  </a>
+  <a href="https://fenicsproject.org/">
+    <img src="docs/fenics_logo.png" alt="FEniCS Logo" width="50">
+  </a>
+</p>
+
+[![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/Docker-Supported-blue?logo=docker)](https://www.docker.com/)
+
+
+This repository contains FEniCS implementation of a Permanent Magnet Synchronous Motor (PMSM) Model in 2D and 3D. [(Reference)](https://doi.org/10.1016/j.finel.2022.103755) <br>
+<p align="center">
+  <img src="docs/objective.png" alt="Objective" width="640" height="360">
+</p> 
+
+This project is built upon [**TEAM30**](https://github.com/Wells-Group/TEAM30), extending its capabilities to model a PMSM. A big thanks to the original authors for their amazing work! 
+
+## 2D modeling
 
 - `src/generate_pmsm_2D.py`: A script that generates the PMSM 2D meshes and saves them to xdmf format. 
 - `src/pmsm.py`: Script for solving the PMSM 2D model.  
@@ -13,10 +35,10 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 - `meshes`: Folder containing different meshes used for simulation
 - `meshes/mesh screenshots`: Folder containing images of meshes used for simulation
 
-## 3D modelling
+## 3D modeling
 
 - `src/generate_pmsm_3D.py`: A script that generates the PMSM 3D meshes and saves them to xdmf format. 
-- `src/pmsm_3D.py`: Script for solving the PMSM 2D model.
+- `src/pmsm_3D3.py`: Script for solving the PMSM 3D model.
 - `src/utils3D.py`: File containing utillity functions used in pmsm_3D.py
 - `3D results`: Folder containing 3D Model results
 ---
@@ -74,22 +96,41 @@ This repository contains FEniCS implementation of a Permanent Magnet Synchronous
 </table>
 
 ### 3D Outputs
-2D cross-section (sliced by X-Y plane)
 <table>
   <tr>
     <td align="center">
       <a href="./3D%20results/A_output.png">
         <img src="./3D%20results/A_output_mag.png" alt="Magnetic Vector Potential (A)" width="450">
       </a>
-      <p><b>Magnetic Vector Potential</b></p>
+      <p><b>Magnetic Vector Potential (A)</b></p>
+      <p> (XY plane cross-section) </p>
       <p><a href="https://youtu.be/D9hegGKyAyU">Watch it rotate</a></p>
     </td>
     <td align="center">
       <a href="./3D%20results/B_output.png">
         <img src="./3D%20results/B_output_mag.png" alt="Magnetic Flux Density (B)" width="450">
       </a>
-      <p><b>Magnetic Flux Density</b></p>
+      <p><b>Magnetic Flux Density (B)</b></p>
+      <p> (XY plane cross-section) </p>
       <p><a href="https://youtu.be/4mJqwAhYwN4">Watch it rotate</a></p>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="./3D%20results/A_output_YZ.png">
+        <img src="./3D%20results/A_output_YZ.png" alt="Magnetic Vector Potential (A)" width="450">
+      </a>
+      <p><b>Magnetic Vector Potential (A)</b></p>
+      <p> (YZ plane cross-section) </p>
+      <p><a href="https://youtu.be/dlkFgMFOXCg">Watch it rotate</a></p>
+    </td>
+    <td align="center">
+      <a href="./3D%20results/B_output_YZ.png">
+        <img src="./3D%20results/B_output_YZ.png" alt="Magnetic Flux Density (B)" width="450">
+      </a>
+      <p><b>Magnetic Flux Density (B)</b></p>
+       <p> (YZ plane cross-section) </p>
+      <p><a href="https://youtu.be/E7q7DKzymRg">Watch it rotate</a></p>
     </td>
   </tr>
 </table>
@@ -182,3 +223,5 @@ If you want to edit or debug the code, you can do it using VS Code.
 | **VS Code not detecting container** | Restart **VS Code** & **Docker** |
 
 Happy Simulating 👍
+
+
