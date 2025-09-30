@@ -76,7 +76,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     }
     # "Al": 1.000022*mu_0 "Al": 3.72e7 2700
     freq = model_parameters["freq"]             # 50
-    T = 0.1 #0.005 0.01 
+    T = 0.005 #0.005 0.01 
     dt_ = 0.001 #0.001 0.002 
     omega_J = 2 * np.pi * freq                  # 376.99111843077515
 

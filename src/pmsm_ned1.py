@@ -1,5 +1,5 @@
 """
-Solving a Permanent Magnet Synchronous Motor (PMSM) problem 
+Solving a Permanent Magnet Synchronous Motor (PMSM) model in 3D 
 using the TEAM-30 code as the foundational framework.
 """
 
@@ -26,9 +26,9 @@ from utils3D import update_magnetization
 
 def AssembleSystem(a, L, bcs, name):
     if not bcs:
-        A = dolfinx.fem.petsc.assemble_matrix(dolfinx.fem.form(a))    # assemble_matrix(a)
+        A = dolfinx.fem.petsc.assemble_matrix(dolfinx.fem.form(a))
     else:
-        A = dolfinx.fem.petsc.assemble_matrix(dolfinx.fem.form(a), bcs) # assemble_matrix(a, bcs)
+        A = dolfinx.fem.petsc.assemble_matrix(dolfinx.fem.form(a), bcs)
     A.assemble()
 
     b = dolfinx.fem.petsc.assemble_vector(dolfinx.fem.form(L))
@@ -51,9 +51,6 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     outdir
         Directory to put results in
 
-    plot
-        Plot torque and voltage over time
-
     progress
         Show progress bar for solving in time
 
@@ -62,12 +59,9 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     """
 
     # Parameters
-    fname = Path("meshes") / "pmesh3D"  # pmesh3D         # pmesh4_res_0005    # pmsm mesh {pmesh3, pmesh1, pmesh4}
+    fname = Path("meshes") / "pmesh3D"              # pmesh3D         # pmesh4_res_0005    # pmsm mesh {pmesh3, pmesh1, pmesh4}
     omega_u: np.float64 = 62.83                     # Angular speed of rotor [rad/s]    # 600 RPM; 1 RPM = 2pi/60 rad/s
     degree: np.int32 = 1                            # Degree of magnetic vector potential functions space (default: 1)
-    apply_torque: bool = False                      # Apply external torque to engine (ignore omega) (default: False)
-    form_compiler_options: dict = {} 
-    jit_parameters: dict = {}
 
     # Note: model_parameters, domain_parameters and surface_map imported from generate_pmsm_3D script
     # Model parameters for the PMSM model
@@ -82,8 +76,8 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     }
     # "Al": 1.000022*mu_0 "Al": 3.72e7 2700
     freq = model_parameters["freq"]             # 50
-    T = 0.05 #0.005 0.01 
-    dt_ = 0.01 #0.001 0.002 
+    T = 0.1 #0.005 0.01 
+    dt_ = 0.001 #0.001 0.002 
     omega_J = 2 * np.pi * freq                  # 376.99111843077515
 
     # Copper wires and PMs are ordered in counter clock-wise order from angle = 0, 2*np.pi/num_segments...
@@ -96,9 +90,6 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
                 9: {"alpha": 1, "beta": 4 * np.pi / 3}, 10: {"alpha": -1, "beta": 0},
                 11: {"alpha": 1, "beta": 2 * np.pi / 3},
                 12: {"alpha": -1, "beta": 4 * np.pi / 3}}
-
-    # Marker for facets, and restriction to use in surface integral of airgap
-    surface_map: Dict[str, Union[int, str]] = {"Exterior": 1, "MidAir": 2, "restriction": "+"}
 
     # Read mesh and cell markers
     with io.XDMFFile(MPI.COMM_WORLD, f"{fname}.xdmf", "r") as xdmf:
@@ -121,17 +112,23 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
             density.x.array[cells] = model_parameters["densities"][material]
 
     # Define problem function space
-    cell = mesh.ufl_cell()                              # cell = 'tetrahedron', degree = 1
-    VE = ufl.VectorElement("Lagrange", cell, degree, dim = 3)                             
+    cell = mesh.ufl_cell()                                      # cell = 'tetrahedron', degree = 1
+    nedelec_elem = basix.ufl.element("N1curl", mesh.basix_cell(), degree)
+    A_space = fem.functionspace(mesh, nedelec_elem)
+
+    Az = ufl.TrialFunction(A_space)
+    vz = ufl.TestFunction(A_space)
+    # VE = ufl.VectorElement("Lagrange", cell, degree, dim = 3)                             
     FE = ufl.FiniteElement("Lagrange", cell, degree)    
-    ME = ufl.MixedElement([VE, FE])                     
+    ME = ufl.MixedElement([nedelec_elem, FE])                     
     VQ = fem.FunctionSpace(mesh, ME)        
 
     # Define test, trial and functions for previous timestep
-    Az, V = ufl.TrialFunctions(VQ)
-    vz, q = ufl.TestFunctions(VQ)
+    # Az, V = ufl.TrialFunctions(VQ)
+    # vz, q = ufl.TestFunctions(VQ)
 
-    V_V = fem.FunctionSpace(mesh, VE)    
+    V_V = fem.FunctionSpace(mesh, nedelec_elem)
+    V_F = fem.FunctionSpace(mesh, FE)   
     # A0 = Function(V_V)
     AnVn = fem.Function(VQ)
     An, _ = ufl.split(AnVn)  # Solution at previous time step 
@@ -173,16 +170,16 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     # Magnetization term  
     f_a =   + dt / mu * ufl.inner(ufl.grad(Az), ufl.grad(vz)) * dx(Omega_n + Omega_c) \
             + sigma * ufl.inner((Az - An), vz) * dx(Omega_c) \
-            + dt * sigma * ufl.inner(ufl.grad(V), vz) * dx(Omega_c) \
             + dt * sigma * ufl.inner(ufl.cross(omega * radius, ufl.curl(Az)), vz) * dx(Omega_c) \
             - dt * J0z * vz[2] * dx(Omega_n) \
             - dt * (mu_0/mu) * ufl.inner( Mvec , ufl.curl(vz)) * dx(Omega_pm)
+            # + dt * sigma * ufl.inner(ufl.grad(V), vz) * dx(Omega_c) \
 
-    f_v =   + dt * sigma * ufl.inner(ufl.grad(V), ufl.grad(q)) * dx(Omega_n + Omega_c) \
-            + sigma * ufl.inner((Az - An), ufl.grad(q)) * dx(Omega_c) \
-            + dt * sigma * ufl.inner(ufl.cross(omega * radius, ufl.curl(Az)), ufl.grad(q)) * dx(Omega_c)
-            # ufl.grad(q), vz
-    form_av = f_a + f_v
+    # f_v =   + dt * sigma * ufl.inner(ufl.grad(V), ufl.grad(q)) * dx(Omega_n + Omega_c) \
+    #         + sigma * ufl.inner((Az - An), ufl.grad(q)) * dx(Omega_c) \
+    #         + dt * sigma * ufl.inner(ufl.cross(omega * radius, ufl.curl(Az)), vz) * dx(Omega_c)
+
+    form_av = f_a # + f_v
     a, L = ufl.system(form_av)
 
     # Find all dofs in Omega_n for Q-space
@@ -207,13 +204,12 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     bcs = [bc_V, bc_Q]
 
     # Create sparsity pattern and matrix with additional non-zeros on diagonal
-    cpp_a = fem.form(a, form_compiler_options=form_compiler_options,
-                     jit_options=jit_parameters)
+    cpp_a = fem.form(a)
     pattern = fem.create_sparsity_pattern(cpp_a)
     block_size = VQ.dofmap.index_map_bs
     deac_blocks = deac_dofs[0] // block_size
-    pattern.insert_diagonal(deac_blocks)
-    pattern.finalize()
+    # pattern.insert_diagonal(deac_blocks)
+    # pattern.finalize()
 
 
     # Initialize B
@@ -229,14 +225,11 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     # Create matrix based on sparsity pattern
     A = cpp.la.petsc.create_matrix(mesh.comm, pattern)
     A.zeroEntries()
-    if not apply_torque:
-        A.zeroEntries()
-        _petsc.assemble_matrix(A, cpp_a, bcs=bcs)  # type: ignore
-        A.assemble()
+    _petsc.assemble_matrix(A, cpp_a, bcs=bcs)  # type: ignore
+    A.assemble()
 
     # Create inital vector for LHS
-    cpp_L = fem.form(L, form_compiler_options=form_compiler_options,
-                     jit_options=jit_parameters)
+    cpp_L = fem.form(L)
     b = _petsc.create_vector(cpp_L)
 
     # Create solver
@@ -251,12 +244,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     # Set PETSc options
     opts = PETSc.Options()  # type: ignore
     opts.prefixPush(solver_prefix)
-    # petsc_options: dict = {"ksp_type": "preonly", "pc_type": "lu"}
-    # for k, v in petsc_options.items():
-    #     opts[k] = v
     opts["ksp_type"] = "gmres"
-    # opts["ksp_converged_reason"] = None
-    # opts["ksp_monitor_true_residual"] = None
     opts["ksp_type"] = "gmres"
     opts["ksp_gmres_modifiedgramschmidt"] = None
     opts["ksp_diagonal_scale"] = None
@@ -264,14 +252,7 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     opts["ksp_rtol"] = 1e-08
     opts["ksp_max_it"] = 50000
     opts["pc_type"] = "bjacobi"
-    # opts["pc_view"] = None
-    # opts["ksp_monitor"] = None
-    # opts["ksp_view"] = None
     solver.setFromOptions()
-    # opts.prefixPop()
-    # solver.setFromOptions()
-    # solver.setOptionsPrefix(prefix)
-    # solver.setFromOptions()
 
     # # Derived Quantity Solver
     solver_dq = PETSc.KSP().create(mesh.comm)
@@ -285,27 +266,22 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
     opts_dq["ksp_view"] = None
     solver_dq.setFromOptions()
 
-
-
     # Function for containg the solution
     AzV = fem.Function(VQ)
     A_out = fem.Function(V_V)
+    V_out = fem.Function(V_F)
 
     A_out = AzV.sub(0).collapse()
     V_out = AzV.sub(1).collapse()
 
     # Post-processingfunction for projecting the magnetic field potential
-    # post_B = MagneticField3D(AzV)
-
-    A_out.name = "A"
-    # post_B.B.name = "B"
+    A_out.name = "A"  
     V_out.name = "V"
-    
+
     # Create output file
-    if save_output:
-        Az_vtx = VTXWriter(mesh.comm, str(outdir / "A.bp"), [A_out])
-        # B_vtx = VTXWriter(mesh.comm, str(outdir / "B.bp"), [post_B.B])
-        V_vtx = VTXWriter(mesh.comm, str(outdir / "V.bp"), [V_out])
+    # if save_output:
+        # Az_vtx = VTXWriter(mesh.comm, str(outdir / "A.bp"), [A_out])
+        # V_vtx = VTXWriter(mesh.comm, str(outdir / "V.bp"), [V_out])
 
     # Computations needed for adding addiitonal torque to engine
     x = ufl.SpatialCoordinate(mesh)
@@ -362,35 +338,27 @@ def solve_pmsm(outdir: Path = Path("results"), progress: bool = False, save_outp
                 - ufl.inner(ufl.curl(A_res),v_b)*dx \
 
         a_b, L_b = ufl.system(form_b)
-
         A_b, b_b = AssembleSystem(a_b, L_b, [], "B")
         
         A_b = dolfinx.fem.petsc.assemble_matrix(dolfinx.fem.form(a_b)) #assemble_matrix(a_b)
         A_b.assemble()
-        
-
         solver_dq.setOperators(A_b)
         solver_dq.solve(b_b, B.vector)
 
         SaveSolution(B, t, file_b, "B", "Tm")
-
-
-        # Update rotational speed 
         print("Az = ", min(AzV.sub(0).collapse().x.array[:]), max(AzV.sub(0).collapse().x.array[:]))
-        # print("B_val = ", min(post_B.B.x.array[:]), max(post_B.B.x.array[:]))
+
         # Write solution to file
-        if save_output:
-            # post_B.interpolate()
-            A_out.x.array[:] = AzV.sub(0).collapse().x.array[:]
-            V_out.x.array[:] = AzV.sub(1).collapse().x.array[:]
-            Az_vtx.write(t)
-            # B_vtx.write(t)
-            V_vtx.write(t)
+        # if save_output:
+        #     # post_B.interpolate()
+        #     A_out.x.array[:] = AzV.sub(0).collapse().x.array[:]
+        #     V_out.x.array[:] = AzV.sub(1).collapse().x.array[:]
+            # Az_vtx.write(t)
+            # V_vtx.write(t)
     b.destroy()
-    if save_output:
-        Az_vtx.close()
-        # B_vtx.close()
-        V_vtx.close()
+    # if save_output:
+    #     Az_vtx.close()
+    #     V_vtx.close()
 
     elements = mesh.topology.index_map(mesh.topology.dim).size_global
     num_dofs = VQ.dofmap.index_map.size_global * VQ.dofmap.index_map_bs
