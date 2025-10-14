@@ -152,7 +152,7 @@ Ensure you have the following installed on your system:
 
 #### **Step 1️⃣: Clone the Repository**
 ```bash
-git clone git@github.com:abhinavtk7/pmsm-fenics.git
+git clone https://github.com/abhinavtk7/pmsm-fenics.git
 cd pmsm-fenics
 ```
 
@@ -223,5 +223,6 @@ If you want to edit or debug the code, you can do it using VS Code.
 | **VS Code not detecting container** | Restart **VS Code** & **Docker** |
 
 Happy Simulating 👍
+
 
 
